@@ -1,49 +1,5 @@
-// import { Injectable } from "@nestjs/common";
-
-// @Injectable()
-// export class FilterBuilderService {
-//   buildMongooseQuery(filterDto: any): Record<string, any> {
-//     const query: Record<string, any> = {
-//       $expr: { $and: [] },
-//     };
-
-//     for (const [key, value] of Object.entries(filterDto)) {
-//       if (value === undefined) continue;
-
-//       if (key.includes("__")) {
-//         const [field, operator] = key.split("__");
-//         switch (operator) {
-//           case "gte":
-//             query.$expr.$and.push({
-//               $gte: [{ $toLong: `$${field}` }, BigInt(`${value}`).toString()],
-//             });
-//             break;
-//           case "lte":
-//             query.$expr.$and.push({
-//               $lte: [{ $toLong: `$${field}` }, BigInt(`${value}`).toString()],
-//             });
-//             break;
-//           case "exact":
-//             query[field] = { ...query[field], $eq: value };
-//             break;
-//           case "in":
-//             query[field] = { $in: Array.isArray(value) ? value : [value] };
-//             break;
-//           case "icontains":
-//             query[field] = { $regex: value, $options: "i" };
-//             break;
-//         }
-//       } else {
-//         query[key] = value;
-//       }
-//     }
-
-//     return query;
-//   }
-// }
-
 import { Inject, Injectable, Optional } from "@nestjs/common";
-import { INestjsFilterOptions } from "../interfaces/filter-options.interface";
+import { INestjsDynamicFilterOptions } from "../interfaces/filter-options.interface";
 
 @Injectable()
 export class FilterBuilderService {
@@ -53,7 +9,7 @@ export class FilterBuilderService {
   >;
 
   constructor(
-    @Optional() @Inject("FILTER_OPTIONS") private options?: INestjsFilterOptions
+    @Optional() @Inject("FILTER_OPTIONS") private options?: INestjsDynamicFilterOptions
   ) {
     this.queryBuilders = new Map<string, (field: string, value: any) => any>([
       ["exact", this.buildExactMatch],

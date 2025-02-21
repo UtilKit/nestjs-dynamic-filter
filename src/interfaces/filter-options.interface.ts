@@ -1,4 +1,4 @@
-export interface INestjsFilterOptions {
+export interface INestjsDynamicFilterOptions {
   // Global configuration options
   enableSwaggerDocs?: boolean;
   // Support for different databases

@@ -1,14 +1,14 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
-import { INestjsFilterOptions } from "./interfaces/filter-options.interface";
+import { INestjsDynamicFilterOptions } from "./interfaces/filter-options.interface";
 import { FilterBuilderService } from "./services/filter-builder.service";
 import { FilterService } from "./services/filter.service";
 
 @Module({})
-export class NestjsFilterModule {
-  static forRoot(options?: INestjsFilterOptions): DynamicModule {
+export class NestjsDynamicFilterModule {
+  static forRoot(options?: INestjsDynamicFilterOptions): DynamicModule {
     return {
-      module: NestjsFilterModule,
+      module: NestjsDynamicFilterModule,
       providers: [
         FilterBuilderService,
         FilterService,

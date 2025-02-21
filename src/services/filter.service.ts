@@ -3,13 +3,13 @@ import { Reflector } from "@nestjs/core";
 import { Model } from "mongoose";
 import { FILTERABLE_FIELD_KEY } from "../constants";
 import { FilterOperationType } from "../enums/filter-operation-type.enum";
-import { INestjsFilterOptions } from "../interfaces/filter-options.interface";
+import { INestjsDynamicFilterOptions } from "../interfaces/filter-options.interface";
 
 @Injectable()
 export class FilterService {
   constructor(
     private readonly reflector: Reflector,
-    @Optional() @Inject("FILTER_OPTIONS") private options?: INestjsFilterOptions
+    @Optional() @Inject("FILTER_OPTIONS") private options?: INestjsDynamicFilterOptions
   ) {}
 
   async getFilters(dto: any, model: Model<any>): Promise<any> {

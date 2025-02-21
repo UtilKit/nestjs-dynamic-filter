@@ -19,14 +19,14 @@ npm install nestjs-dynamic-filter
 
 ## Quick Start
 
-1. Import the NestjsFilterModule in your app.module.ts:
+1. Import the NestjsDynamicFilterModule in your app.module.ts:
 
 ```typescript
-import { NestjsFilterModule } from 'nestjs-dynamic-filter';
+import { NestjsDynamicFilterModule } from 'nestjs-dynamic-filter';
 
 @Module({
   imports: [
-    NestjsFilterModule.forRoot(),
+    NestjsDynamicFilterModule.forRoot(),
     // ... other imports
   ],
 })
