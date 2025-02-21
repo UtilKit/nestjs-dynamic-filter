@@ -1,13 +1,36 @@
 {
-  "name": "nestjs-filter",
+  "name": "nestjs-dynamic-filter",
   "version": "1.0.0",
-  "author": "Mohammed Mishhub",
+  "author": "Mishhub",
   "license": "ISC",
-  "description": "A flexible filtering system for NestJS applications, inspired by django-filter",
+  "description": "A flexible filtering system for NestJS applications",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UtilKit/nestjs-dynamic-filter"
+  },
+  "bugs": {
+    "url": "https://github.com/UtilKit/nestjs-dynamic-filter/issues"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=20.15.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
+    "clean": "rm -rf dist",
     "test": "jest",
     "prepare": "npm run build",
     "watch": "tsc --watch",

@@ -72,7 +72,6 @@ export class FilterBuilderService {
   }
 
   buildQuery(filterDto: any): Record<string, any> {
-    console.log("Starting buildQuery");
     const dbType = this.options?.databaseType || "mongodb";
     return dbType === "mongodb"
       ? this.buildMongooseQuery(filterDto)
@@ -80,7 +79,6 @@ export class FilterBuilderService {
   }
 
   private buildMongooseQuery(filterDto: any): Record<string, any> {
-    console.log("Starting buildMongooseQuery");
     const query: Record<string, any> = {
       $expr: { $and: [] },
     };
@@ -102,8 +100,6 @@ export class FilterBuilderService {
         query[key] = value;
       }
     }
-
-    console.log("Mongoose query built:", query);
 
     return query;
   }

@@ -1,11 +1,11 @@
-# nestjs-filter
+# nestjs-dynamic-filter
 
 A flexible filtering system for NestJS applications, inspired by django-filter. This package provides an easy way to implement complex filtering in your NestJS applications with MongoDB support.
 
 ## Installation
 
 ```bash
-npm install nestjs-filter
+npm install nestjs-dynamic-filter
 ```
 
 ## Features
@@ -22,7 +22,7 @@ npm install nestjs-filter
 1. Import the NestjsFilterModule in your app.module.ts:
 
 ```typescript
-import { NestjsFilterModule } from 'nestjs-filter';
+import { NestjsFilterModule } from 'nestjs-dynamic-filter';
 
 @Module({
   imports: [
@@ -36,8 +36,8 @@ export class AppModule {}
 2. Define your filter DTO:
 
 ```typescript
-import { FilterableField, FilterOperationType } from 'nestjs-filter';
-import { PaginationQueryDto } from 'nestjs-filter';
+import { FilterableField, FilterOperationType } from 'nestjs-dynamic-filter';
+import { PaginationQueryDto } from 'nestjs-dynamic-filter';
 
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
@@ -64,7 +64,7 @@ export class UserFilterDto extends PaginationQueryDto {
 3. Use in your controller:
 
 ```typescript
-import { FilterBuilderService } from 'nestjs-filter';
+import { FilterBuilderService } from 'nestjs-dynamic-filter';
 
 @Controller('users')
 export class UserController {
