@@ -75,7 +75,7 @@ export class UserController {
 
   @Get()
   async findAll(@Query() query: UserFilterDto) {
-    const filter = this.filterBuilder.buildMongooseQuery(query);
+    const filter = this.filterBuilder.buildQuery(query);
     return this.userService.find(filter);
   }
 }
