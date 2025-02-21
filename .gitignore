@@ -1,0 +1,70 @@
+# Node.js dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.*.local
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+debug.log*
+stacktrace.log
+
+# Build output
+dist/
+.cache/
+.out/
+.nyc_output/
+coverage/
+tmp/
+
+# TypeScript
+*.tsbuildinfo
+
+# Database files
+*.sqlite
+*.sqlite-journal
+/mongodb/
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# macOS system files
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux system files
+*~
+.nfs*
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# NestJS-specific
+.cache/
+ormconfig.json
+ormconfig.ts
