@@ -1,6 +1,6 @@
 # nestjs-dynamic-filter
 
-A flexible filtering system for NestJS applications, inspired by django-filter. This package provides an easy way to implement complex filtering in your NestJS applications with MongoDB support.
+A flexible filtering system for NestJS applications. This package provides an easy way to implement complex filtering in your NestJS applications with MongoDB support.
 
 ## Installation
 
