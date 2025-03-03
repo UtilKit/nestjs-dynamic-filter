@@ -1,23 +1,23 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { ApiProperty } from "@nestjs/swagger";
+import { Transform } from "class-transformer";
 import {
   IsBoolean,
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
-} from 'class-validator';
-import { FilterOperationType } from "../enums";
-import { IFilterableFieldOptions } from '../interfaces';
+} from "class-validator";
 import { FILTERABLE_FIELD_KEY } from "../constants";
+import { FilterOperationType } from "../enums";
+import { IFilterableFieldOptions } from "../interfaces";
 
 export function FilterableField(options?: IFilterableFieldOptions) {
   return (target: any, propertyKey: string) => {
     const operations = options?.operations || [FilterOperationType.ICONTAINS];
     const propertyType = Reflect.getMetadata(
-      'design:type',
+      "design:type",
       target,
-      propertyKey,
+      propertyKey
     );
 
     // Apply additional properties for each operation
@@ -44,15 +44,14 @@ export function FilterableField(options?: IFilterableFieldOptions) {
           break;
         }
         case Number: {
-          Transform(({ value }) => parseFloat(value))(target, suffixedKey); 
+          Transform(({ value }) => parseFloat(value))(target, suffixedKey);
           IsNumber()(target, suffixedKey);
-          IsOptional()(target, `${propertyKey}__gte`);
-          IsOptional()(target, `${propertyKey}__lte`);
+          IsOptional()(target, suffixedKey);
           break;
         }
         case Function: {
           const enumValues = Object.values(propertyType);
-          if (enumValues.length > 0 && typeof enumValues[0] === 'string') {
+          if (enumValues.length > 0 && typeof enumValues[0] === "string") {
             IsEnum(propertyType)(target, suffixedKey);
           }
           break;
@@ -75,13 +74,14 @@ export function FilterableField(options?: IFilterableFieldOptions) {
       [
         ...existingFields,
         {
-          field: options?.fieldName || propertyKey, options,
+          field: options?.fieldName || propertyKey,
+          options,
           operations: options?.operations || [FilterOperationType.ICONTAINS],
           propertyKey,
           enum: options?.enum,
         },
       ],
-      target.constructor,
+      target.constructor
     );
   };
 }

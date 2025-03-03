@@ -9,7 +9,9 @@ export class FilterBuilderService {
   >;
 
   constructor(
-    @Optional() @Inject("FILTER_OPTIONS") private options?: INestjsDynamicFilterOptions
+    @Optional()
+    @Inject("FILTER_OPTIONS")
+    private options?: INestjsDynamicFilterOptions
   ) {
     this.queryBuilders = new Map<string, (field: string, value: any) => any>([
       ["exact", this.buildExactMatch],
@@ -76,11 +78,11 @@ export class FilterBuilderService {
   }
 
   private buildGte(field: string, value: any) {
-    return { $gte: [`$${field}`, value] };
+    return { $expr: { $gte: [{ $toDecimal: `$${field}` }, { $toDecimal: value.toString() }] } };
   }
-
+  
   private buildLte(field: string, value: any) {
-    return { $lte: [`$${field}`, value] };
+    return { $expr: { $lte: [{ $toDecimal: `$${field}` }, { $toDecimal: value.toString() }] } };
   }
 
   private buildIn(field: string, value: any) {
