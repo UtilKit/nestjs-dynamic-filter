@@ -1,6 +1,6 @@
 {
   "name": "nestjs-dynamic-filter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Mishhub",
   "license": "ISC",
   "description": "A flexible filtering system for NestJS applications",
