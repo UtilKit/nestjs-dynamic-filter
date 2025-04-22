@@ -84,7 +84,6 @@ export class FilterBuilderService {
   }
 
   private buildGte(field: string, value: any) {
-    console.log("checking..", value);
     // Check if value is a date
     if (value instanceof Date || Date.parse(value)) {
       return {
