@@ -74,15 +74,48 @@ export class FilterBuilderService {
   }
 
   private buildIContains(field: string, value: string) {
-    return { $regexMatch: { input: `$${field}`, regex: value, options: "i" } };
+    return {
+      $regexMatch: {
+        input: { $toString: `$${field}` },
+        regex: value,
+        options: "i",
+      },
+    };
   }
 
   private buildGte(field: string, value: any) {
-    return { $expr: { $gte: [{ $toDecimal: `$${field}` }, { $toDecimal: value.toString() }] } };
+    console.log("checking..", value);
+    // Check if value is a date
+    if (value instanceof Date || Date.parse(value)) {
+      return {
+        $expr: {
+          $gte: [`$${field}`, new Date(value)],
+        },
+      };
+    }
+    // Default decimal comparison for numbers
+    return {
+      $expr: {
+        $gte: [{ $toDecimal: `$${field}` }, { $toDecimal: value.toString() }],
+      },
+    };
   }
-  
+
   private buildLte(field: string, value: any) {
-    return { $expr: { $lte: [{ $toDecimal: `$${field}` }, { $toDecimal: value.toString() }] } };
+    // Check if value is a date
+    if (value instanceof Date || Date.parse(value)) {
+      return {
+        $expr: {
+          $lte: [`$${field}`, new Date(value)],
+        },
+      };
+    }
+    // Default decimal comparison for numbers
+    return {
+      $expr: {
+        $lte: [{ $toDecimal: `$${field}` }, { $toDecimal: value.toString() }],
+      },
+    };
   }
 
   private buildIn(field: string, value: any) {

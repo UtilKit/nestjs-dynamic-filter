@@ -18,7 +18,7 @@ export class NestjsDynamicFilterModule {
           useValue: options || {},
         },
       ],
-      exports: [FilterBuilderService, FilterService],
+      exports: [FilterBuilderService, FilterService, Reflector],
     };
   }
 }
