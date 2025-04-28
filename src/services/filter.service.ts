@@ -9,7 +9,9 @@ import { INestjsDynamicFilterOptions } from "../interfaces/filter-options.interf
 export class FilterService {
   constructor(
     private readonly reflector: Reflector,
-    @Optional() @Inject("FILTER_OPTIONS") private options?: INestjsDynamicFilterOptions
+    @Optional()
+    @Inject("FILTER_OPTIONS")
+    private options?: INestjsDynamicFilterOptions
   ) {}
 
   async getFilters(dto: any, model: Model<any>): Promise<any> {
@@ -44,10 +46,12 @@ export class FilterService {
 
     if (field.options?.enum) {
       filters[field.field] = {
-        exact: Object.values(field.options.enum).map((value: string) => ({
-          value,
-          label: this.formatEnumLabel(value),
-        })),
+        exact: Object.entries(field.options.enum).map(
+          ([key, value]: [string, string]) => ({
+            value,
+            label: this.formatEnumLabel(key),
+          })
+        ),
       };
     }
 
