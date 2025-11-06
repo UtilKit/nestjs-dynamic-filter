@@ -1,6 +1,7 @@
 import { Inject, Injectable, Optional } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { Model } from "mongoose";
+import { Repository, SelectQueryBuilder } from "typeorm";
 import { FILTERABLE_FIELD_KEY } from "../constants";
 import { FilterOperationType } from "../enums/filter-operation-type.enum";
 import { INestjsDynamicFilterOptions } from "../interfaces/filter-options.interface";
@@ -14,7 +15,7 @@ export class FilterService {
     private options?: INestjsDynamicFilterOptions
   ) {}
 
-  async getFilters(dto: any, model: Model<any>): Promise<any> {
+  async getFilters(dto: any, model: Model<any> | Repository<any>): Promise<any> {
     const filterMetadata = this.reflector.get(FILTERABLE_FIELD_KEY, dto) || [];
     const result = {
       filters: {},
@@ -31,7 +32,7 @@ export class FilterService {
 
   private async processFieldMetadata(
     field: any,
-    model: Model<any>,
+    model: Model<any> | Repository<any>,
     result: any
   ) {
     const { filters, search, fields } = result;
@@ -77,17 +78,39 @@ export class FilterService {
       .join(" ");
   }
 
-  private async getFieldStats(field: string, model: Model<any>) {
-    const stats = await model.aggregate([
-      {
-        $group: {
-          _id: null,
-          min: { $min: `$${field}` },
-          max: { $max: `$${field}` },
-        },
-      },
-    ]);
+  private async getFieldStats(
+    field: string,
+    model: Model<any> | Repository<any>
+  ) {
+    const dbType = this.options?.databaseType || "mongodb";
 
-    return stats.length > 0 ? { min: stats[0].min, max: stats[0].max } : null;
+    if (dbType === "mongodb") {
+      // MongoDB/Mongoose
+      const mongooseModel = model as Model<any>;
+      const stats = await mongooseModel.aggregate([
+        {
+          $group: {
+            _id: null,
+            min: { $min: `$${field}` },
+            max: { $max: `$${field}` },
+          },
+        },
+      ]);
+
+      return stats.length > 0 ? { min: stats[0].min, max: stats[0].max } : null;
+    } else {
+      // PostgreSQL/TypeORM
+      const repository = model as Repository<any>;
+      const queryBuilder: SelectQueryBuilder<any> = repository
+        .createQueryBuilder()
+        .select(`MIN(${field})`, "min")
+        .addSelect(`MAX(${field})`, "max");
+
+      const result = await queryBuilder.getRawOne();
+
+      return result && (result.min !== null || result.max !== null)
+        ? { min: result.min, max: result.max }
+        : null;
+    }
   }
 }
